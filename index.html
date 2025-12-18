@@ -1147,18 +1147,15 @@ If(Abs(Sum([Saldo])) > 1, 'DESCUADRE', 'OK')
      ============================================================================ -->
 
 <!-- Reveal.js Core -->
+<!-- GSAP for Animations (load before Reveal) -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+
 <script src="dist/reveal.js"></script>
 
 <!-- Reveal.js Plugins -->
 <script src="plugin/notes/notes.js"></script>
 <script src="plugin/highlight/highlight.js"></script>
 <script src="plugin/zoom/zoom.js"></script>
-
-<!-- GSAP for Animations -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
-
-<!-- Custom Animations -->
-<script src="js/strtgy-animations.js"></script>
 
 <script>
     // Initialize Reveal.js with PDF export support
@@ -1194,6 +1191,9 @@ If(Abs(Sum([Saldo])) > 1, 'DESCUADRE', 'OK')
         if (clientWatermark) clientWatermark.style.display = 'none';
     }
 </script>
+
+<!-- Custom Animations (load after Reveal init) -->
+<script src="js/strtgy-animations.js"></script>
 
 </body>
 </html>
