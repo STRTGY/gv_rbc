@@ -13,10 +13,16 @@
     left: 0;
     width: 100vw;
     height: 100vh;
-    z-index: -1;
+    z-index: 0;
     background: linear-gradient(135deg, #f8fafc 0%, #e8f4f8 50%, #f0f7fa 100%);
     overflow: hidden;
     pointer-events: none;
+}
+
+/* Ensure Reveal.js content appears above the animated background */
+.reveal {
+    position: relative;
+    z-index: 1;
 }
 
 #data-bg svg {
@@ -83,7 +89,7 @@ body.slide-closing .data-particle {
     position: fixed;
     bottom: 20px;
     left: 30px;
-    z-index: 100;
+    z-index: 200;
     display: flex;
     align-items: center;
     gap: 10px;
@@ -136,5 +142,86 @@ body.slide-closing .watermark-logo span {
     .watermark-logo,
     .data-particles {
         display: none !important;
+    }
+}
+
+/* ============================================================================
+   MOBILE OPTIMIZATIONS
+   ============================================================================ */
+
+/* Tablets - reduce animation complexity */
+@media screen and (max-width: 1024px) {
+    #data-bg svg {
+        opacity: 0.1;
+    }
+    
+    .data-particle {
+        display: none;
+    }
+    
+    .watermark-logo img {
+        height: 24px;
+    }
+    
+    .watermark-logo span {
+        font-size: 9px;
+    }
+}
+
+/* Mobile phones - disable heavy animations for performance */
+@media screen and (max-width: 768px) {
+    #data-bg svg {
+        display: none !important;
+    }
+    
+    #data-bg {
+        background: linear-gradient(135deg, #f8fafc 0%, #e8f4f8 100%);
+    }
+    
+    body.slide-cover #data-bg,
+    body.slide-closing #data-bg {
+        background: var(--strtgy-dark, #051d40);
+    }
+    
+    .data-particles {
+        display: none !important;
+    }
+    
+    .watermark-logo {
+        bottom: 10px;
+        left: 15px;
+        gap: 6px;
+    }
+    
+    .watermark-logo img {
+        height: 20px;
+    }
+    
+    .watermark-logo span {
+        font-size: 8px;
+        letter-spacing: 0.5px;
+    }
+}
+
+/* Very small phones - hide watermarks */
+@media screen and (max-width: 480px) {
+    .watermark-logo {
+        display: none !important;
+    }
+}
+
+/* Reduce motion preference - accessibility */
+@media (prefers-reduced-motion: reduce) {
+    #data-bg svg path {
+        animation: none !important;
+    }
+    
+    .data-nodes circle {
+        animation: none !important;
+    }
+    
+    .data-particle {
+        animation: none !important;
+        display: none;
     }
 }

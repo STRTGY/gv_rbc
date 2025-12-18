@@ -29,8 +29,28 @@
 /* ============================================================================
    BASE THEME
    ============================================================================ */
+/* All backgrounds handled by #data-bg for animated effects */
 .reveal-viewport {
-    background: linear-gradient(135deg, #f8fafc 0%, #e8f4f8 50%, #f0f7fa 100%);
+    background: transparent !important;
+    background-color: transparent !important;
+}
+
+.reveal {
+    background: transparent !important;
+    background-color: transparent !important;
+}
+
+.reveal .backgrounds {
+    background: transparent !important;
+    background-color: transparent !important;
+}
+
+.reveal .slide-background {
+    background-color: transparent !important;
+}
+
+.reveal .slide-background-content {
+    background: transparent !important;
 }
 
 .reveal {
@@ -423,5 +443,232 @@
 @media print {
     .backgrounds {
         background-color: var(--strtgy-white);
+    }
+}
+
+/* ============================================================================
+   MOBILE RESPONSIVE STYLES
+   ============================================================================ */
+
+/* Tablets */
+@media screen and (max-width: 1024px) {
+    .reveal {
+        font-size: 36px;
+    }
+    
+    .reveal h1 { font-size: 2.2em; }
+    .reveal h2 { font-size: 1.5em; }
+    .reveal h3 { font-size: 1.2em; }
+    
+    .reveal table {
+        font-size: 0.65em;
+    }
+    
+    .reveal pre {
+        font-size: 0.5em;
+    }
+    
+    .two-columns {
+        gap: 15px;
+    }
+    
+    .two-columns > div {
+        max-width: 240px;
+    }
+}
+
+/* Mobile phones */
+@media screen and (max-width: 768px) {
+    .reveal {
+        font-size: 28px;
+    }
+    
+    .reveal h1 { 
+        font-size: 1.8em;
+        padding-bottom: 8px;
+        border-bottom-width: 3px;
+    }
+    .reveal h2 { 
+        font-size: 1.4em;
+        padding-bottom: 6px;
+    }
+    .reveal h3 { font-size: 1.15em; }
+    .reveal h4 { font-size: 0.95em; }
+    
+    .reveal p {
+        margin: 12px 0;
+        line-height: 1.4;
+    }
+    
+    .reveal .slides section {
+        padding: 15px;
+    }
+    
+    /* Tables - scrollable with touch */
+    .reveal table {
+        font-size: 0.55em;
+        display: block;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+    
+    .reveal table th,
+    .reveal table td {
+        padding: 8px;
+        white-space: nowrap;
+    }
+    
+    /* Code blocks */
+    .reveal pre {
+        width: 95%;
+        font-size: 0.45em;
+        border-radius: 6px;
+    }
+    
+    .reveal pre code {
+        padding: 12px 15px;
+        max-height: 300px;
+    }
+    
+    /* Lists */
+    .reveal ol,
+    .reveal dl,
+    .reveal ul {
+        margin-left: 0.7em;
+    }
+    
+    .reveal li {
+        margin: 0.4em 0;
+    }
+    
+    /* Cards */
+    .card {
+        padding: 15px;
+        border-radius: 6px;
+    }
+    
+    /* Two columns - stack on mobile */
+    .two-columns {
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .two-columns > div {
+        max-width: 90%;
+        width: 100%;
+        margin-bottom: 10px;
+    }
+    
+    /* Steps */
+    .step-num {
+        width: 24px;
+        height: 24px;
+        font-size: 0.8em;
+        margin-right: 10px;
+    }
+    
+    /* Badges */
+    .badge {
+        padding: 3px 8px;
+        font-size: 0.8em;
+    }
+    
+    /* Section numbers */
+    .section-num {
+        padding: 5px 12px;
+        font-size: 0.85em;
+        margin-right: 8px;
+    }
+    
+    /* Presenter indicators */
+    .presenter-arturo,
+    .presenter-fabian {
+        padding: 8px 15px;
+        margin: 8px 0;
+    }
+    
+    /* Blockquotes */
+    .reveal blockquote {
+        width: 90%;
+        padding: 12px 16px;
+    }
+    
+    /* Controls */
+    .reveal .controls {
+        bottom: 10px;
+    }
+    
+    .reveal .slide-number {
+        font-size: 10px;
+    }
+}
+
+/* Small phones */
+@media screen and (max-width: 480px) {
+    .reveal {
+        font-size: 22px;
+    }
+    
+    .reveal h1 { font-size: 1.5em; }
+    .reveal h2 { font-size: 1.25em; }
+    .reveal h3 { font-size: 1.05em; }
+    
+    .reveal .slides section {
+        padding: 10px;
+    }
+    
+    .reveal table {
+        font-size: 0.48em;
+    }
+    
+    .reveal table th,
+    .reveal table td {
+        padding: 5px 6px;
+    }
+    
+    .card {
+        padding: 12px;
+    }
+    
+    .step-num {
+        width: 20px;
+        height: 20px;
+        font-size: 0.7em;
+        margin-right: 8px;
+    }
+}
+
+/* Landscape orientation on mobile */
+@media screen and (max-width: 900px) and (orientation: landscape) {
+    .reveal {
+        font-size: 24px;
+    }
+    
+    .reveal h2 {
+        margin-bottom: 10px;
+    }
+    
+    .reveal .slides section {
+        padding: 8px 15px;
+    }
+    
+    /* Allow two columns in landscape */
+    .two-columns {
+        flex-direction: row;
+    }
+    
+    .two-columns > div {
+        max-width: 45%;
+    }
+}
+
+/* Touch device improvements */
+@media (pointer: coarse) {
+    .reveal a {
+        padding: 2px 4px;
+    }
+    
+    .reveal .controls button {
+        padding: 8px;
     }
 }

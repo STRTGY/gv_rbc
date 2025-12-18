@@ -103,6 +103,235 @@
                 page-break-after: always;
             }
         }
+        
+        /* ============================================================================
+           MOBILE RESPONSIVE STYLES
+           ============================================================================ */
+        
+        /* Tablets and smaller */
+        @media screen and (max-width: 1024px) {
+            .reveal {
+                font-size: 32px;
+            }
+            .reveal h1 { font-size: 2em; }
+            .reveal h2 { font-size: 1.4em; }
+            .reveal h3 { font-size: 1.2em; }
+            
+            .dual-logo-header {
+                gap: 30px !important;
+            }
+            .dual-logo-header img {
+                max-height: 50px !important;
+            }
+            
+            .two-columns {
+                flex-direction: column;
+                align-items: center;
+            }
+            .two-columns > div {
+                max-width: 90%;
+                width: 100%;
+            }
+        }
+        
+        /* Mobile phones */
+        @media screen and (max-width: 768px) {
+            /* Hide animated background on mobile for performance */
+            #data-bg svg {
+                display: none;
+            }
+            #data-bg {
+                background: linear-gradient(135deg, #f8fafc 0%, #e8f4f8 100%) !important;
+            }
+            
+            /* Smaller watermarks */
+            .watermark-logo {
+                bottom: 10px !important;
+                left: 10px !important;
+                transform: scale(0.7);
+                transform-origin: bottom left;
+            }
+            .watermark-client {
+                bottom: 10px !important;
+                right: 10px !important;
+                transform: scale(0.7);
+                transform-origin: bottom right;
+            }
+            
+            /* Typography */
+            .reveal {
+                font-size: 24px;
+            }
+            .reveal h1 { font-size: 1.6em; }
+            .reveal h2 { font-size: 1.3em; margin-bottom: 15px; }
+            .reveal h3 { font-size: 1.1em; }
+            .reveal p { margin: 10px 0; }
+            
+            /* Cover slide logos */
+            .dual-logo-header {
+                flex-direction: column !important;
+                gap: 15px !important;
+            }
+            .dual-logo-header img {
+                max-height: 45px !important;
+            }
+            
+            /* Lists */
+            .reveal ul, .reveal ol {
+                margin-left: 0.5em;
+                font-size: 0.9em;
+            }
+            .reveal li {
+                margin: 0.4em 0;
+            }
+            
+            /* Cards */
+            .card {
+                padding: 15px;
+                font-size: 0.9em;
+            }
+            
+            /* Steps */
+            .step-num {
+                width: 22px;
+                height: 22px;
+                font-size: 0.75em;
+                margin-right: 8px;
+            }
+            
+            /* Section numbers */
+            .section-num {
+                padding: 4px 10px;
+                font-size: 0.8em;
+            }
+            
+            /* Badges */
+            .badge {
+                padding: 3px 6px;
+                font-size: 0.75em;
+            }
+            
+            /* Navigation controls bigger for touch */
+            .reveal .controls {
+                transform: scale(1.2);
+            }
+            
+            /* Slide number */
+            .reveal .slide-number {
+                font-size: 10px;
+                right: 50px !important;
+            }
+        }
+        
+        /* Small phones */
+        @media screen and (max-width: 480px) {
+            .reveal {
+                font-size: 18px;
+            }
+            .reveal h1 { font-size: 1.4em; }
+            .reveal h2 { font-size: 1.2em; }
+            .reveal h3 { font-size: 1em; }
+            
+            /* Hide watermarks on very small screens */
+            .watermark-logo,
+            .watermark-client {
+                display: none !important;
+            }
+            
+            .dual-logo-header img {
+                max-height: 35px !important;
+            }
+            
+            /* Presenter indicators */
+            .presenter-arturo,
+            .presenter-fabian {
+                padding: 8px 12px;
+                font-size: 0.85em;
+            }
+        }
+        
+        /* ============================================================================
+           MOBILE TABLE STYLES
+           ============================================================================ */
+        @media screen and (max-width: 768px) {
+            .reveal table {
+                font-size: 0.55em;
+                display: block;
+                overflow-x: auto;
+                -webkit-overflow-scrolling: touch;
+                white-space: nowrap;
+            }
+            .reveal table th,
+            .reveal table td {
+                padding: 6px 8px;
+                min-width: 80px;
+            }
+            
+            /* Hint for scrollable tables */
+            .reveal table::after {
+                content: '← desliza →';
+                display: block;
+                text-align: center;
+                font-size: 0.8em;
+                color: var(--strtgy-text-light);
+                padding: 5px 0;
+                font-style: italic;
+            }
+        }
+        
+        @media screen and (max-width: 480px) {
+            .reveal table {
+                font-size: 0.5em;
+            }
+            .reveal table th,
+            .reveal table td {
+                padding: 4px 6px;
+                min-width: 60px;
+            }
+        }
+        
+        /* ============================================================================
+           TOUCH-FRIENDLY IMPROVEMENTS
+           ============================================================================ */
+        @media (pointer: coarse) {
+            /* Bigger touch targets */
+            .reveal .controls button {
+                padding: 10px;
+            }
+            
+            /* Better tap feedback */
+            .reveal a,
+            .reveal .controls button {
+                -webkit-tap-highlight-color: rgba(20, 93, 160, 0.3);
+            }
+            
+            /* Prevent text selection while swiping */
+            .reveal .slides {
+                -webkit-user-select: none;
+                user-select: none;
+            }
+        }
+        
+        /* Landscape phone optimization */
+        @media screen and (max-width: 900px) and (orientation: landscape) {
+            .reveal {
+                font-size: 22px;
+            }
+            .reveal h2 {
+                margin-bottom: 10px;
+            }
+            .reveal .slides section {
+                padding: 10px;
+            }
+            
+            /* Compact cards in landscape */
+            .two-columns {
+                flex-direction: row;
+            }
+            .two-columns > div {
+                max-width: 45%;
+            }
+        }
     </style>
 </head>
 <body>
@@ -1161,7 +1390,7 @@ If(Abs(Sum([Saldo])) > 1, 'DESCUADRE', 'OK')
 <script src="plugin/zoom/zoom.js"></script>
 
 <script>
-    // Initialize Reveal.js with PDF export support
+    // Initialize Reveal.js with PDF export support and mobile optimization
     Reveal.initialize({
         hash: true,
         slideNumber: 'c/t',
@@ -1169,8 +1398,33 @@ If(Abs(Sum([Saldo])) > 1, 'DESCUADRE', 'OK')
         transition: 'slide',
         width: 1200,
         height: 700,
-        margin: 0.1,
+        margin: 0.04,
         center: true,
+        
+        // Responsive scaling
+        minScale: 0.2,
+        maxScale: 2.0,
+        
+        // Mobile/Touch optimization
+        touch: true,
+        hideInactiveCursor: true,
+        hideCursorTime: 3000,
+        
+        // Navigation controls (show on mobile)
+        controls: true,
+        controlsTutorial: true,
+        controlsLayout: 'bottom-right',
+        controlsBackArrows: 'faded',
+        
+        // Progress bar
+        progress: true,
+        
+        // Embedded mode - helps with mobile viewing
+        embedded: false,
+        
+        // View distance for mobile performance
+        viewDistance: 3,
+        mobileViewDistance: 2,
         
         // PDF Export Options
         pdfMaxPagesPerSlide: 1,
