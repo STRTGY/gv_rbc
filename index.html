@@ -1,0 +1,1199 @@
+<!doctype html>
+<html lang="es">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    
+    <title>Automatización Balanza Comercial - Grupo Vigía | STRTGY AI</title>
+    <meta name="description" content="Presentación de avance del proyecto de automatización del reporte de balanza comercial entre filiales">
+    <meta name="author" content="STRTGY AI">
+    
+    <!-- Reveal.js Core CSS -->
+    <link rel="stylesheet" href="dist/reset.css">
+    <link rel="stylesheet" href="dist/reveal.css">
+    
+    <!-- STRTGY Custom Theme -->
+    <link rel="stylesheet" href="dist/theme/strtgy.css" id="theme">
+    
+    <!-- Plugin: Code Highlight -->
+    <link rel="stylesheet" href="plugin/highlight/monokai.css">
+    
+    <!-- Custom Styles for Animated Background -->
+    <link rel="stylesheet" href="css/strtgy-animations.css">
+    
+    <!-- PDF Export Styles -->
+    <script>
+        // Detect print-pdf mode and load appropriate styles
+        var link = document.createElement('link');
+        link.rel = 'stylesheet';
+        link.type = 'text/css';
+        link.href = window.location.search.match(/print-pdf/gi) ? 'css/print/pdf.css' : 'css/print/paper.css';
+        document.getElementsByTagName('head')[0].appendChild(link);
+    </script>
+    
+    <style>
+        /* Dual Logo Header */
+        .dual-logo-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+            margin-bottom: 20px;
+        }
+        .dual-logo-header img {
+            max-height: 60px;
+            width: auto;
+        }
+        .dual-logo-header .logo-vigia {
+            max-height: 50px;
+        }
+        
+        /* Client logo watermark (right side) */
+        .watermark-client {
+            position: fixed;
+            bottom: 20px;
+            right: 30px;
+            z-index: 100;
+            opacity: 0.4;
+            transition: opacity 0.3s ease;
+            pointer-events: none;
+        }
+        .watermark-client img,
+        .watermark-client picture img {
+            height: 35px;
+            width: auto;
+        }
+        body.slide-cover .watermark-client,
+        body.slide-closing .watermark-client {
+            opacity: 0.3;
+        }
+        body.slide-cover .watermark-client img,
+        body.slide-closing .watermark-client img {
+            filter: brightness(0) invert(1);
+        }
+        
+        /* PDF Export Help Box */
+        .help-box {
+            background: var(--strtgy-accent);
+            border-left: 4px solid var(--strtgy-primary);
+            padding: 15px 20px;
+            border-radius: 0 8px 8px 0;
+            margin: 10px 0;
+            text-align: left;
+        }
+        .help-box code {
+            background: var(--strtgy-dark);
+            color: #aed581;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 0.9em;
+        }
+        
+        /* Print styles */
+        @media print {
+            .watermark-logo,
+            .watermark-client,
+            #data-bg {
+                display: none !important;
+            }
+            .reveal .slides section {
+                page-break-after: always;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<!-- ============================================================================
+     ANIMATED DATA BACKGROUND - Flujos de datos estilo AI/Data
+     ============================================================================ -->
+<div id="data-bg">
+    <svg viewBox="0 0 1200 700" preserveAspectRatio="xMidYMid slice">
+        <defs>
+            <linearGradient id="grad-primary" x1="0%" y1="0%" x2="100%" y2="0%">
+                <stop offset="0%" style="stop-color:#145da0;stop-opacity:0" />
+                <stop offset="50%" style="stop-color:#145da0;stop-opacity:1" />
+                <stop offset="100%" style="stop-color:#145da0;stop-opacity:0" />
+            </linearGradient>
+            <linearGradient id="grad-light" x1="0%" y1="0%" x2="100%" y2="0%">
+                <stop offset="0%" style="stop-color:#56aeff;stop-opacity:0" />
+                <stop offset="50%" style="stop-color:#56aeff;stop-opacity:1" />
+                <stop offset="100%" style="stop-color:#56aeff;stop-opacity:0" />
+            </linearGradient>
+            <linearGradient id="grad-accent" x1="0%" y1="0%" x2="100%" y2="0%">
+                <stop offset="0%" style="stop-color:#b1d4e0;stop-opacity:0" />
+                <stop offset="50%" style="stop-color:#b1d4e0;stop-opacity:1" />
+                <stop offset="100%" style="stop-color:#b1d4e0;stop-opacity:0" />
+            </linearGradient>
+        </defs>
+        
+        <!-- Data Flow Lines - Primary -->
+        <g class="data-flow primary-flow">
+            <path d="M-100,100 Q300,50 600,150 T1300,100" stroke="url(#grad-primary)" stroke-width="2" stroke-dasharray="20 10"/>
+            <path d="M-100,200 Q400,150 700,250 T1300,180" stroke="url(#grad-primary)" stroke-width="1.5" stroke-dasharray="15 8"/>
+            <path d="M-100,350 Q350,300 650,400 T1300,320" stroke="url(#grad-primary)" stroke-width="2" stroke-dasharray="25 12"/>
+            <path d="M-100,500 Q300,450 600,550 T1300,480" stroke="url(#grad-primary)" stroke-width="1.5" stroke-dasharray="18 9"/>
+            <path d="M-100,600 Q400,550 700,650 T1300,580" stroke="url(#grad-primary)" stroke-width="2" stroke-dasharray="22 11"/>
+        </g>
+        
+        <!-- Data Flow Lines - Light -->
+        <g class="data-flow light-flow">
+            <path d="M-100,80 Q250,120 550,60 T1300,120" stroke="url(#grad-light)" stroke-width="1.5" stroke-dasharray="12 6"/>
+            <path d="M-100,280 Q350,320 650,260 T1300,300" stroke="url(#grad-light)" stroke-width="1" stroke-dasharray="10 5"/>
+            <path d="M-100,420 Q300,380 600,440 T1300,400" stroke="url(#grad-light)" stroke-width="1.5" stroke-dasharray="14 7"/>
+            <path d="M-100,560 Q400,520 700,580 T1300,540" stroke="url(#grad-light)" stroke-width="1" stroke-dasharray="11 6"/>
+            <path d="M-100,680 Q350,640 650,700 T1300,660" stroke="url(#grad-light)" stroke-width="1.5" stroke-dasharray="16 8"/>
+        </g>
+        
+        <!-- Data Flow Lines - Accent -->
+        <g class="data-flow accent-flow">
+            <path d="M-100,150 Q200,200 500,130 T1300,180" stroke="url(#grad-accent)" stroke-width="3" stroke-dasharray="30 15"/>
+            <path d="M-100,380 Q280,330 580,400 T1300,350" stroke="url(#grad-accent)" stroke-width="2.5" stroke-dasharray="25 12"/>
+            <path d="M-100,520 Q320,570 620,500 T1300,550" stroke="url(#grad-accent)" stroke-width="3" stroke-dasharray="28 14"/>
+        </g>
+        
+        <!-- Data Nodes -->
+        <g class="data-nodes">
+            <circle cx="200" cy="150" r="4" fill="#145da0" opacity="0.6"/>
+            <circle cx="400" cy="280" r="3" fill="#56aeff" opacity="0.5"/>
+            <circle cx="600" cy="200" r="5" fill="#145da0" opacity="0.6"/>
+            <circle cx="800" cy="350" r="3" fill="#56aeff" opacity="0.5"/>
+            <circle cx="1000" cy="250" r="4" fill="#145da0" opacity="0.6"/>
+            <circle cx="300" cy="450" r="3" fill="#b1d4e0" opacity="0.4"/>
+            <circle cx="500" cy="520" r="4" fill="#145da0" opacity="0.6"/>
+            <circle cx="700" cy="480" r="3" fill="#56aeff" opacity="0.5"/>
+            <circle cx="900" cy="550" r="5" fill="#145da0" opacity="0.6"/>
+            <circle cx="1100" cy="420" r="3" fill="#56aeff" opacity="0.5"/>
+        </g>
+        
+        <!-- Neural Connections -->
+        <g class="neural-connections" opacity="0.3">
+            <line x1="200" y1="150" x2="400" y2="280" stroke="#145da0" stroke-width="0.5"/>
+            <line x1="400" y1="280" x2="600" y2="200" stroke="#56aeff" stroke-width="0.5"/>
+            <line x1="600" y1="200" x2="800" y2="350" stroke="#145da0" stroke-width="0.5"/>
+            <line x1="800" y1="350" x2="1000" y2="250" stroke="#56aeff" stroke-width="0.5"/>
+            <line x1="300" y1="450" x2="500" y2="520" stroke="#b1d4e0" stroke-width="0.5"/>
+            <line x1="500" y1="520" x2="700" y2="480" stroke="#145da0" stroke-width="0.5"/>
+            <line x1="700" y1="480" x2="900" y2="550" stroke="#56aeff" stroke-width="0.5"/>
+            <line x1="900" y1="550" x2="1100" y2="420" stroke="#145da0" stroke-width="0.5"/>
+        </g>
+    </svg>
+    <div class="data-particles"></div>
+</div>
+
+<!-- Watermark Logo - STRTGY (bottom left) -->
+<div class="watermark-logo">
+    <img src="assets/logo-strtgy.png" alt="STRTGY">
+    <span>Data & AI</span>
+</div>
+
+<!-- Watermark Logo - Grupo Vigía (bottom right) -->
+<div class="watermark-client">
+    <picture>
+        <source srcset="assets/logo-vigia.avif" type="image/avif">
+        <source srcset="assets/logo-vigia.png" type="image/png">
+        <img src="assets/logo-vigia.avif" alt="Grupo Vigía" onerror="this.parentElement.parentElement.style.display='none'">
+    </picture>
+</div>
+
+<!-- ============================================================================
+     REVEAL.JS PRESENTATION
+     ============================================================================ -->
+<div class="reveal">
+    <div class="slides">
+
+        <!-- ==================== PORTADA ==================== -->
+        <section data-state="cover-slide">
+            <div class="dual-logo-header" style="justify-content: center; gap: 60px;">
+                <img src="assets/logo-strtgy.png" alt="STRTGY AI" style="max-height: 80px; filter: brightness(0) invert(1);">
+                <picture>
+                    <source srcset="assets/logo-vigia.avif" type="image/avif">
+                    <source srcset="assets/logo-vigia.png" type="image/png">
+                    <img src="assets/logo-vigia.avif" alt="Grupo Vigía" class="logo-vigia" style="max-height: 60px; filter: brightness(0) invert(1);" onerror="this.parentElement.style.display='none'">
+                </picture>
+            </div>
+            <h2 style="border-bottom: none; color: white !important; text-shadow: 0 2px 30px rgba(0,0,0,0.4); margin-top: 30px;">Automatización del Reporte de<br>Balanza Comercial entre Filiales</h2>
+            <h4 style="color: var(--strtgy-accent) !important;">Grupo Vigía — Sesión de Avance</h4>
+            <p style="margin-top: 40px; font-size: 0.8em; color: white;">
+                <strong style="color: var(--strtgy-light) !important;">Arturo Salazar Bazúa</strong> — Customer Success<br>
+                <strong style="color: var(--strtgy-light) !important;">Fabián Salazar Bazúa</strong> — Científico de Datos
+            </p>
+            <p style="font-size: 0.6em; color: var(--strtgy-accent);">Diciembre 2025</p>
+            <aside class="notes">
+                <h4>🎯 OBJETIVO DE ESTA SLIDE</h4>
+                <p>Bienvenida y establecer el tono de la sesión.</p>
+                
+                <h4>📝 GUIÓN SUGERIDO (Arturo)</h4>
+                <p>"Buenos días/tardes a todos. Gracias por acompañarnos en esta sesión de avance del proyecto de automatización de la Balanza Comercial entre Filiales.</p>
+                <p>El objetivo de hoy NO es solo mostrarles lo que hemos construido, sino también alinearnos en los pasos finales para dejar esta solución operativa."</p>
+                
+                <h4>⏱️ TIEMPO: 1 minuto</h4>
+                
+                <h4>💡 TIPS</h4>
+                <ul>
+                    <li>Hacer contacto visual con los stakeholders clave</li>
+                    <li>Mencionar que es sesión de AVANCE, no entrega final</li>
+                    <li>Proyectar confianza en el trabajo realizado</li>
+                </ul>
+            </aside>
+        </section>
+
+        <!-- ==================== AGENDA ==================== -->
+        <section>
+            <h2>Agenda</h2>
+            <table>
+                <tr><th style="width:10%">#</th><th>Tema</th><th style="width:25%">Presenta</th><th style="width:15%">Tiempo</th></tr>
+                <tr class="fragment"><td>1</td><td>Contexto del proyecto</td><td>Arturo</td><td>5 min</td></tr>
+                <tr class="fragment"><td>2</td><td>El problema actual</td><td>Arturo</td><td>10 min</td></tr>
+                <tr class="fragment"><td>3</td><td>La solución diseñada</td><td>Fabián</td><td>15 min</td></tr>
+                <tr class="fragment"><td>4</td><td>Estado actual y demo</td><td>Fabián</td><td>15 min</td></tr>
+                <tr class="fragment"><td>5</td><td>Próximos pasos</td><td>Ambos</td><td>10 min</td></tr>
+                <tr class="fragment"><td>6</td><td>Preguntas y acuerdos</td><td>Todos</td><td>5 min</td></tr>
+            </table>
+            <aside class="notes">
+                <h4>🎯 OBJETIVO DE ESTA SLIDE</h4>
+                <p>Establecer expectativas claras sobre lo que cubriremos.</p>
+                
+                <h4>📝 GUIÓN SUGERIDO (Arturo)</h4>
+                <p>"Esta es nuestra agenda para los próximos 60 minutos. Como pueden ver, la sesión está dividida en dos partes principales:</p>
+                <ul>
+                    <li>Primero yo les daré el contexto del problema que estamos resolviendo</li>
+                    <li>Después Fabián les mostrará la solución técnica y el estado actual</li>
+                    <li>Terminaremos definiendo juntos los próximos pasos"</li>
+                </ul>
+                
+                <h4>⏱️ TIEMPO: 2 minutos</h4>
+                
+                <h4>💡 TIPS</h4>
+                <ul>
+                    <li>Los fragmentos aparecen uno por uno - hacer pausa breve en cada uno</li>
+                    <li>Mencionar que habrá tiempo para preguntas al final</li>
+                </ul>
+            </aside>
+        </section>
+
+        <!-- ==================== BLOQUE 1: CONTEXTO ==================== -->
+        <section>
+            <section>
+                <h2><span class="section-num">1</span> Contexto del Proyecto</h2>
+                <div class="presenter-arturo"><em>Presenta: Arturo</em></div>
+                <aside class="notes">
+                    <h4>🔄 TRANSICIÓN</h4>
+                    <p>Slide de título de sección. Pasar rápidamente a la siguiente.</p>
+                    
+                    <h4>📝 GUIÓN (Arturo)</h4>
+                    <p>"Empecemos con el contexto. ¿Por qué iniciamos este proyecto?"</p>
+                </aside>
+            </section>
+            
+            <section>
+                <h3>¿Por qué estamos aquí?</h3>
+                <ul>
+                    <li class="fragment">Automatizar un proceso <strong>manual y repetitivo</strong></li>
+                    <li class="fragment">Integrar en <strong>Finanzas 3G</strong> (Qlik Sense)</li>
+                    <li class="fragment">Habilitar <strong>visibilidad en tiempo real</strong></li>
+                    <li class="fragment">Sin tocar los procesos actuales de carga</li>
+                </ul>
+                <aside class="notes">
+                    <h4>🎯 OBJETIVO DE ESTA SLIDE</h4>
+                    <p>Recordar el valor del proyecto y sus restricciones.</p>
+                    
+                    <h4>📝 GUIÓN SUGERIDO (Arturo)</h4>
+                    <p>Para cada punto:</p>
+                    <ol>
+                        <li>"El proceso actual de conciliación de balanza es completamente manual y se repite cada mes"</li>
+                        <li>"La solución se integra directamente en Finanzas 3G, la herramienta que ya usan"</li>
+                        <li>"Una vez implementado, tendrán visibilidad en tiempo real de los descuadres"</li>
+                        <li>"Y lo más importante: NO modificamos nada de los procesos actuales de carga de datos"</li>
+                    </ol>
+                    
+                    <h4>⏱️ TIEMPO: 3 minutos</h4>
+                    
+                    <h4>💡 TIPS</h4>
+                    <ul>
+                        <li>Enfatizar el último punto - es clave para reducir resistencia</li>
+                        <li>Observar reacciones de la audiencia</li>
+                    </ul>
+                </aside>
+            </section>
+            
+            <section>
+                <h3>Objetivo de esta sesión</h3>
+                <div class="card" style="background: var(--strtgy-accent); max-width: 500px; margin: 0 auto;">
+                    <p style="font-size: 1.1em; line-height: 2.2; text-align: left;">
+                        <span class="step-num" style="width: 24px; height: 24px; font-size: 0.75em;">1</span> Mostrar el avance<br>
+                        <span class="step-num" style="width: 24px; height: 24px; font-size: 0.75em;">2</span> Alinear próximos pasos<br>
+                        <span class="step-num" style="width: 24px; height: 24px; font-size: 0.75em;">3</span> Acordar fechas de cierre
+                    </p>
+                </div>
+                <aside class="notes">
+                    <h4>🎯 OBJETIVO DE ESTA SLIDE</h4>
+                    <p>Ser transparentes sobre las expectativas de la sesión.</p>
+                    
+                    <h4>📝 GUIÓN SUGERIDO (Arturo)</h4>
+                    <p>"Hoy tenemos tres objetivos concretos:</p>
+                    <ol>
+                        <li>Mostrarles exactamente qué hemos construido</li>
+                        <li>Alinear los pasos que faltan para terminar</li>
+                        <li>Y lo más importante: salir de aquí con fechas acordadas para el cierre"</li>
+                    </ol>
+                    
+                    <h4>⚠️ IMPORTANTE</h4>
+                    <p>Ser honesto: NO es una demo final porque falta la recarga de datos.</p>
+                    
+                    <h4>⏱️ TIEMPO: 1 minuto</h4>
+                </aside>
+            </section>
+        </section>
+
+        <!-- ==================== BLOQUE 2: PROBLEMA ==================== -->
+        <section>
+            <section>
+                <h2><span class="section-num">2</span> El Problema Actual</h2>
+                <div class="presenter-arturo"><em>Presenta: Arturo</em></div>
+                <aside class="notes">
+                    <h4>🔄 TRANSICIÓN (Arturo)</h4>
+                    <p>"Ahora veamos en detalle el problema que estamos resolviendo. Esto lo identificamos en la sesión de levantamiento con Luvia y el equipo."</p>
+                </aside>
+            </section>
+            
+            <section>
+                <h3>Proceso AS-IS (Hoy)</h3>
+                <div style="font-size: 0.85em; text-align: left; max-width: 700px; margin: 0 auto;">
+                    <p class="fragment"><span class="step-num">1</span>Exportar de Qlik a Excel</p>
+                    <p class="fragment"><span class="step-num">2</span>Limpiar ceros y vacíos <span class="highlight-red">(30-45 min)</span></p>
+                    <p class="fragment"><span class="step-num">3</span>Reorganizar columnas SA/Pruebas <span class="highlight-red">(20-30 min)</span></p>
+                    <p class="fragment"><span class="step-num">4</span>Colorear activos vs pasivos <span class="highlight-red">(10 min)</span></p>
+                    <p class="fragment"><span class="step-num">5</span>Cruzar saldos manualmente <span class="highlight-red">(60-90 min)</span></p>
+                    <p class="fragment"><span class="step-num">6</span>Investigar descuadres <span class="highlight-red">(variable)</span></p>
+                </div>
+                <aside class="notes">
+                    <h4>🎯 OBJETIVO DE ESTA SLIDE</h4>
+                    <p>Mostrar el dolor actual paso a paso.</p>
+                    
+                    <h4>📝 GUIÓN SUGERIDO (Arturo)</h4>
+                    <p>Describir cada paso brevemente:</p>
+                    <ol>
+                        <li>"Primero hay que exportar los datos de Qlik a Excel..."</li>
+                        <li>"Luego limpiar todos los registros con ceros - esto toma 30 a 45 minutos"</li>
+                        <li>"Reorganizar las columnas de SA y Pruebas - otros 20 a 30 minutos"</li>
+                        <li>"Colorear manualmente las filas de activos vs pasivos"</li>
+                        <li>"Y lo más tedioso: cruzar los saldos manualmente - hasta 90 minutos"</li>
+                        <li>"Finalmente investigar cualquier descuadre que aparezca"</li>
+                    </ol>
+                    
+                    <h4>⏱️ TIEMPO: 3 minutos</h4>
+                    
+                    <h4>💡 TIPS</h4>
+                    <ul>
+                        <li>Enfatizar los tiempos en ROJO</li>
+                        <li>Preguntar a Luvia si estos tiempos son correctos (validar)</li>
+                    </ul>
+                </aside>
+            </section>
+            
+            <section data-background="#ffebee">
+                <h3>Tiempo Total</h3>
+                <div style="font-size: 2.5em; font-weight: bold; color: #c62828;">4-5 horas</div>
+                <p style="font-size: 1.1em;">por división</p>
+                <p style="font-size: 1.4em; margin-top: 30px;">
+                    × 4 divisiones = <strong style="color: #c62828;">16-20 horas/mes</strong>
+                </p>
+                <aside class="notes">
+                    <h4>🎯 OBJETIVO DE ESTA SLIDE</h4>
+                    <p>IMPACTO VISUAL - Este es el dato más importante.</p>
+                    
+                    <h4>📝 GUIÓN SUGERIDO (Arturo)</h4>
+                    <p>"Si sumamos todo eso: son 4 a 5 horas POR DIVISIÓN.</p>
+                    <p>Multiplicado por 4 divisiones... estamos hablando de 16 a 20 horas CADA MES dedicadas solo a este proceso."</p>
+                    
+                    <h4>⏱️ TIEMPO: 1 minuto</h4>
+                    
+                    <h4>💡 TIPS</h4>
+                    <ul>
+                        <li>Hacer PAUSA aquí - dejar que absorban el número</li>
+                        <li>Este es el gancho emocional de la presentación</li>
+                        <li>El fondo rojo refuerza el impacto</li>
+                    </ul>
+                </aside>
+            </section>
+            
+            <section>
+                <h3>Puntos de dolor identificados</h3>
+                <table>
+                    <tr><th style="width:40%">Problema</th><th>Impacto</th></tr>
+                    <tr class="fragment"><td>Proceso repetitivo</td><td>Tiempo de personal calificado</td></tr>
+                    <tr class="fragment"><td>Propenso a errores</td><td>Descuadres no detectados</td></tr>
+                    <tr class="fragment"><td>Conocimiento experto</td><td>Dependencia de una persona</td></tr>
+                    <tr class="fragment"><td>Sin trazabilidad</td><td>Difícil de auditar</td></tr>
+                </table>
+                <aside class="notes">
+                    <h4>🎯 OBJETIVO DE ESTA SLIDE</h4>
+                    <p>Categorizar los problemas para dar estructura.</p>
+                    
+                    <h4>📝 GUIÓN SUGERIDO (Arturo)</h4>
+                    <p>"Más allá del tiempo, identificamos estos 4 problemas principales..."</p>
+                    
+                    <h4>⏱️ TIEMPO: 2 minutos</h4>
+                    
+                    <h4>💡 TIPS</h4>
+                    <ul>
+                        <li>Preguntar a la audiencia: "¿Esto refleja lo que viven día a día?"</li>
+                        <li>Este es un buen momento para validación con el cliente</li>
+                    </ul>
+                    
+                    <h4>🔄 TRANSICIÓN</h4>
+                    <p>"Arturo: Con estos problemas claros, le paso la palabra a Fabián para que les muestre la solución que diseñamos."</p>
+                </aside>
+            </section>
+        </section>
+
+        <!-- ==================== BLOQUE 3: SOLUCIÓN ==================== -->
+        <section>
+            <section>
+                <h2><span class="section-num">3</span> La Solución Diseñada</h2>
+                <div class="presenter-fabian"><em>Presenta: Fabián</em></div>
+                <aside class="notes">
+                    <h4>🔄 TRANSICIÓN (Fabián)</h4>
+                    <p>"Gracias Arturo. La solución tiene una característica fundamental que quiero enfatizar desde el inicio: NO toca los procesos actuales de carga de datos."</p>
+                </aside>
+            </section>
+            
+            <section>
+                <h3>Arquitectura</h3>
+                <div class="two-columns" style="margin-top: 30px;">
+                    <div class="card" style="background: var(--strtgy-accent); border-left-color: var(--strtgy-dark);">
+                        <strong>Datos Existentes</strong><br><br>
+                        <small>Movimientos<br>Empresas<br>Cuentas</small>
+                    </div>
+                    <div class="card" style="background: rgba(86, 174, 255, 0.2); border-left-color: var(--strtgy-primary);">
+                        <strong>Nueva Pestaña</strong><br><br>
+                        <small>4 Mapeos<br>2 Tablas nuevas</small>
+                    </div>
+                    <div class="card" style="background: rgba(20, 93, 160, 0.1); border-left-color: var(--strtgy-light);">
+                        <strong>Dashboards</strong><br><br>
+                        <small>Vista Resumen<br>Vista Detalle</small>
+                    </div>
+                </div>
+                <p class="fragment" style="margin-top: 40px; font-size: 0.9em;">
+                    <strong style="color: var(--status-warning);">Importante:</strong> Sin modificar los procesos actuales de carga
+                </p>
+                <aside class="notes">
+                    <h4>🎯 OBJETIVO DE ESTA SLIDE</h4>
+                    <p>Mostrar la arquitectura de alto nivel.</p>
+                    
+                    <h4>📝 GUIÓN SUGERIDO (Fabián)</h4>
+                    <p>"La arquitectura es simple:</p>
+                    <ol>
+                        <li>A la IZQUIERDA: los datos que ya existen en Qlik - no los tocamos</li>
+                        <li>Al CENTRO: una nueva pestaña en el editor con 4 mapeos y 2 tablas</li>
+                        <li>A la DERECHA: dos dashboards nuevos que consumen esa información"</li>
+                    </ol>
+                    
+                    <h4>⏱️ TIEMPO: 2 minutos</h4>
+                    
+                    <h4>💡 TIPS</h4>
+                    <ul>
+                        <li>Enfatizar que es una CAPA ADICIONAL, no reemplaza nada</li>
+                        <li>Esto reduce el riesgo percibido a CERO</li>
+                    </ul>
+                </aside>
+            </section>
+            
+            <section>
+                <h3>Componentes Clave</h3>
+                <table>
+                    <tr><th style="width:40%">Componente</th><th>Función</th></tr>
+                    <tr class="fragment"><td>Catálogo dinámico</td><td>Empresas sin hardcoding</td></tr>
+                    <tr class="fragment"><td>60+ aliases</td><td>Normalización de nombres</td></tr>
+                    <tr class="fragment"><td>Clasificación automática</td><td>Activo/Pasivo, SA/Pruebas</td></tr>
+                    <tr class="fragment"><td>Indicador de descuadre</td><td>Semáforo rojo/verde</td></tr>
+                </table>
+                <aside class="notes">
+                    <h4>🎯 OBJETIVO DE ESTA SLIDE</h4>
+                    <p>Detallar los componentes técnicos clave.</p>
+                    
+                    <h4>📝 GUIÓN SUGERIDO (Fabián)</h4>
+                    <p>Para cada componente:</p>
+                    <ol>
+                        <li>"El catálogo de empresas es dinámico - no está hardcodeado"</li>
+                        <li>"Mapeamos más de 60 variantes de nombres de empresas"</li>
+                        <li>"La clasificación de Activo/Pasivo y SA/Pruebas es automática"</li>
+                        <li>"Y el indicador de descuadre es visual: verde = OK, rojo = revisar"</li>
+                    </ol>
+                    
+                    <h4>⏱️ TIEMPO: 2 minutos</h4>
+                    
+                    <h4>💡 TIPS</h4>
+                    <ul>
+                        <li>El mapeo de aliases es CLAVE - resuelve el problema de nombres inconsistentes</li>
+                    </ul>
+                </aside>
+            </section>
+            
+            <section>
+                <h3>Ejemplo: Normalización de Nombres</h3>
+                <div class="card" style="background: #fafafa; font-size: 0.8em;">
+                    <p>Mismo empresa, diferentes nombres en el sistema:</p>
+                    <table style="font-size: 0.9em;">
+                        <tr><th>Como aparece</th><th>→</th><th>Normalizado</th></tr>
+                        <tr><td>GRUPO VIGIA</td><td>→</td><td rowspan="4" style="vertical-align: middle; background: var(--strtgy-accent);"><strong>Grupo Vigia</strong></td></tr>
+                        <tr><td>GPO VIGIA</td><td>→</td></tr>
+                        <tr><td>GRUPO VIGIA SA</td><td>→</td></tr>
+                        <tr><td>GRUPO VIGIA SA DE CV</td><td>→</td></tr>
+                    </table>
+                </div>
+                <p class="fragment" style="margin-top: 20px; font-size: 0.9em;">
+                    Mapeamos <strong>60+ variantes</strong> de nombres de empresas
+                </p>
+                <aside class="notes">
+                    <h4>🎯 OBJETIVO DE ESTA SLIDE</h4>
+                    <p>Mostrar un ejemplo concreto del mapeo.</p>
+                    
+                    <h4>📝 GUIÓN SUGERIDO (Fabián)</h4>
+                    <p>"Este es un ejemplo real: la empresa Grupo Vigía aparece en el sistema de 4 formas diferentes.</p>
+                    <p>Nuestro script las normaliza todas al mismo nombre, lo cual permite hacer el cruce automáticamente."</p>
+                    
+                    <h4>⏱️ TIEMPO: 2 minutos</h4>
+                    
+                    <h4>💡 TIPS</h4>
+                    <ul>
+                        <li>Este ejemplo es muy visual y fácil de entender</li>
+                        <li>Mencionar que hay 60+ variantes en total</li>
+                    </ul>
+                </aside>
+            </section>
+            
+            <section>
+                <h3>Proceso TO-BE (Automatizado)</h3>
+                <div style="font-size: 0.9em; text-align: left; max-width: 600px; margin: 0 auto;">
+                    <p class="fragment"><span class="step-num secondary">1</span>Abrir Finanzas 3G → Hoja "Balanza Filiales" <span class="highlight-green">(1 min)</span></p>
+                    <p class="fragment"><span class="step-num secondary">2</span>Ver descuadres resaltados automáticamente <span class="highlight-green">(instantáneo)</span></p>
+                    <p class="fragment"><span class="step-num secondary">3</span>Hacer drill-down a cuenta específica <span class="highlight-green">(2 clicks)</span></p>
+                    <p class="fragment"><span class="step-num secondary">4</span>Exportar si es necesario <span class="highlight-green">(1 min)</span></p>
+                </div>
+                <div class="fragment" style="margin-top: 40px;">
+                    <span style="font-size: 1.5em; color: var(--strtgy-primary);">
+                        <strong>De 4-5 horas → minutos</strong>
+                    </span>
+                </div>
+                <aside class="notes">
+                    <h4>🎯 OBJETIVO DE ESTA SLIDE</h4>
+                    <p>Mostrar el contraste con el proceso actual - IMPACTO.</p>
+                    
+                    <h4>📝 GUIÓN SUGERIDO (Fabián)</h4>
+                    <p>"Con la nueva solución, el proceso se reduce a esto:</p>
+                    <ol>
+                        <li>Abrir la hoja de Balanza Filiales - 1 minuto</li>
+                        <li>Los descuadres aparecen resaltados automáticamente - instantáneo</li>
+                        <li>Si necesitan ver el detalle, 2 clicks para el drill-down</li>
+                        <li>Y si necesitan el Excel, 1 minuto para exportar"</li>
+                    </ol>
+                    <p>"De 4-5 HORAS a MINUTOS."</p>
+                    
+                    <h4>⏱️ TIEMPO: 2 minutos</h4>
+                    
+                    <h4>💡 TIPS</h4>
+                    <ul>
+                        <li>Este es el momento de IMPACTO de la presentación</li>
+                        <li>Hacer pausa en el último punto</li>
+                    </ul>
+                </aside>
+            </section>
+            
+            <section>
+                <h3>Comparativo</h3>
+                <table>
+                    <tr><th style="width:45%">Antes (Excel)</th><th>Después (Qlik)</th></tr>
+                    <tr><td>Exportar cada mes</td><td>Datos en tiempo real</td></tr>
+                    <tr><td>Identificar filiales manual</td><td>Catálogo automático</td></tr>
+                    <tr><td>Fórmulas de Excel</td><td>Set Analysis</td></tr>
+                    <tr><td>Archivo estático</td><td>Dashboard interactivo</td></tr>
+                    <tr><td>Sin drill-down</td><td>Drill-down a cuenta</td></tr>
+                    <tr><td>Distribución manual</td><td>Acceso centralizado</td></tr>
+                </table>
+                <aside class="notes">
+                    <h4>🎯 OBJETIVO DE ESTA SLIDE</h4>
+                    <p>Resumen comparativo lado a lado.</p>
+                    
+                    <h4>📝 GUIÓN SUGERIDO (Fabián)</h4>
+                    <p>"En resumen, pasamos de un proceso manual en Excel a una solución automatizada en Qlik..."</p>
+                    <p>(Leer los puntos principales)</p>
+                    
+                    <h4>⏱️ TIEMPO: 1 minuto</h4>
+                </aside>
+            </section>
+        </section>
+
+        <!-- ==================== BLOQUE 4: ESTADO ACTUAL ==================== -->
+        <section>
+            <section>
+                <h2><span class="section-num">4</span> Estado Actual</h2>
+                <div class="presenter-fabian"><em>Presenta: Fabián</em></div>
+                <aside class="notes">
+                    <h4>🔄 TRANSICIÓN (Fabián)</h4>
+                    <p>"Ahora quiero ser completamente transparente sobre dónde estamos. El proyecto tiene varios componentes y quiero mostrarles el estado de cada uno."</p>
+                </aside>
+            </section>
+            
+            <section>
+                <h3>Avance del Proyecto</h3>
+                <table>
+                    <tr><th style="width:60%">Componente</th><th>Estado</th></tr>
+                    <tr><td>Análisis de requerimientos</td><td><span class="badge badge-done">Completado</span></td></tr>
+                    <tr><td>Diseño de arquitectura</td><td><span class="badge badge-done">Completado</span></td></tr>
+                    <tr><td>Script de Qlik Sense</td><td><span class="badge badge-done">Validado</span></td></tr>
+                    <tr><td>Mapeo de 60+ empresas</td><td><span class="badge badge-done">Completado</span></td></tr>
+                    <tr><td>Estructura de dashboard</td><td><span class="badge badge-done">Creada</span></td></tr>
+                    <tr><td>Recarga de datos</td><td><span class="badge badge-pending">Pendiente</span></td></tr>
+                    <tr><td>Validación con datos reales</td><td><span class="badge badge-pending">Post-recarga</span></td></tr>
+                </table>
+                <aside class="notes">
+                    <h4>🎯 OBJETIVO DE ESTA SLIDE</h4>
+                    <p>Mostrar transparencia total sobre el estado.</p>
+                    
+                    <h4>📝 GUIÓN SUGERIDO (Fabián)</h4>
+                    <p>"Como pueden ver, 5 de 7 componentes están completamente listos:</p>
+                    <ul>
+                        <li>El análisis está hecho</li>
+                        <li>La arquitectura diseñada</li>
+                        <li>El script validado</li>
+                        <li>El mapeo de empresas completo</li>
+                        <li>La estructura del dashboard creada"</li>
+                    </ul>
+                    <p>"Solo nos falta la ejecución y la validación."</p>
+                    
+                    <h4>⏱️ TIEMPO: 2 minutos</h4>
+                    
+                    <h4>💡 TIPS</h4>
+                    <ul>
+                        <li>Ser honesto sobre lo que falta</li>
+                        <li>Enfatizar que lo que falta es EJECUCIÓN, no diseño</li>
+                    </ul>
+                </aside>
+            </section>
+            
+            <section data-background="#fff8e1">
+                <h3>Dependencia Crítica</h3>
+                <div class="card" style="max-width: 600px; margin: 30px auto;">
+                    <p style="font-size: 1.1em; line-height: 1.6;">
+                        El script está <strong>listo y validado</strong>.<br><br>
+                        Necesitamos que el <strong>administrador de Qlik</strong><br>
+                        ejecute la <strong>recarga de datos</strong><br>
+                        para ver los campos en el modelo.
+                    </p>
+                </div>
+                <aside class="notes">
+                    <h4>🎯 OBJETIVO DE ESTA SLIDE</h4>
+                    <p>Explicar la dependencia clave sin echar culpa.</p>
+                    
+                    <h4>📝 GUIÓN SUGERIDO (Fabián)</h4>
+                    <p>"Este es el punto clave: el script está listo y validado sintácticamente.</p>
+                    <p>Lo que necesitamos es que alguien con permisos de administrador ejecute la recarga de datos.</p>
+                    <p>Esto NO es un problema técnico - es una coordinación de accesos."</p>
+                    
+                    <h4>⏱️ TIEMPO: 2 minutos</h4>
+                    
+                    <h4>⚠️ IMPORTANTE</h4>
+                    <ul>
+                        <li>NO echar culpa a nadie</li>
+                        <li>Explicar que es política normal de seguridad</li>
+                        <li>El fondo amarillo resalta la importancia</li>
+                    </ul>
+                </aside>
+            </section>
+            
+            <section>
+                <h3>Demo: Lo que está listo</h3>
+                <div class="card" style="background: #f5f5f5; margin-top: 20px;">
+                    <p style="font-size: 1.1em;">Hoja: <strong>BALANZA FILIALES - RESUMEN</strong></p>
+                    <hr style="border: 1px solid #ddd; margin: 20px 0;">
+                    <div style="text-align: left; padding-left: 20px;">
+                        <p><strong>Dimensiones:</strong> División → Empresa → Contraparte</p>
+                        <p><strong>Medidas:</strong> Activo SA, Pasivo SA, Diferencia, Estatus</p>
+                        <p><strong>Formato:</strong> Semáforo rojo/verde para descuadres</p>
+                        <p><strong>Drill-down:</strong> Hasta cuenta contable</p>
+                    </div>
+                </div>
+                <aside class="notes">
+                    <h4>🎯 OBJETIVO DE ESTA SLIDE</h4>
+                    <p>Mostrar la estructura del dashboard que está lista.</p>
+                    
+                    <h4>📝 GUIÓN SUGERIDO (Fabián)</h4>
+                    <p>"Esto es lo que tendrán disponible una vez se ejecute la recarga:</p>
+                    <ul>
+                        <li>Dimensiones jerárquicas: División, Empresa, Contraparte</li>
+                        <li>Medidas: Activo SA, Pasivo SA, la diferencia y el estatus</li>
+                        <li>Formato visual con semáforo</li>
+                        <li>Drill-down hasta la cuenta contable"</li>
+                    </ul>
+                    
+                    <h4>⏱️ TIEMPO: 2 minutos</h4>
+                    
+                    <h4>💡 TIPS</h4>
+                    <ul>
+                        <li>Si tienen Qlik abierto, mostrar la hoja vacía</li>
+                        <li>Si no, usar el Excel como referencia</li>
+                    </ul>
+                </aside>
+            </section>
+            
+            <section>
+                <h3>Vista esperada del Dashboard</h3>
+                <table style="font-size: 0.65em;">
+                    <tr>
+                        <th>División</th>
+                        <th>Empresa</th>
+                        <th>Contraparte</th>
+                        <th>Activo SA</th>
+                        <th>Pasivo SA</th>
+                        <th>Diferencia</th>
+                        <th>Estatus</th>
+                    </tr>
+                    <tr>
+                        <td>Familiar</td>
+                        <td>Grupo Vigia</td>
+                        <td>Biomex</td>
+                        <td>$1,234,567</td>
+                        <td>$1,234,567</td>
+                        <td style="background: #c8e6c9;">$0</td>
+                        <td style="background: #c8e6c9;">OK</td>
+                    </tr>
+                    <tr>
+                        <td>Familiar</td>
+                        <td>Grupo Vigia</td>
+                        <td>IBPME</td>
+                        <td>$500,000</td>
+                        <td>$499,998</td>
+                        <td style="background: #ffcdd2;">$2</td>
+                        <td style="background: #ffcdd2;">DESCUADRE</td>
+                    </tr>
+                    <tr>
+                        <td>Intera</td>
+                        <td>INTERA CAPITAL</td>
+                        <td>Parque Estrella</td>
+                        <td>$2,100,000</td>
+                        <td>$2,100,000</td>
+                        <td style="background: #c8e6c9;">$0</td>
+                        <td style="background: #c8e6c9;">OK</td>
+                    </tr>
+                </table>
+                <p style="font-size: 0.8em; margin-top: 20px;">
+                    <span style="color: #38a169; font-weight: bold;">●</span> Verde = Cuadra &nbsp;&nbsp;&nbsp; 
+                    <span style="color: #e53e3e; font-weight: bold;">●</span> Rojo = Descuadre (|Diferencia| > $1)
+                </p>
+                <aside class="notes">
+                    <h4>🎯 OBJETIVO DE ESTA SLIDE</h4>
+                    <p>Mostrar un mockup visual de cómo se verá.</p>
+                    
+                    <h4>📝 GUIÓN SUGERIDO (Fabián)</h4>
+                    <p>"Esto es aproximadamente cómo se verá el dashboard.</p>
+                    <p>La segunda fila muestra un descuadre de $2 entre Grupo Vigia e IBPME - eso aparecería en rojo para que lo investiguen."</p>
+                    
+                    <h4>⏱️ TIEMPO: 2 minutos</h4>
+                </aside>
+            </section>
+        </section>
+
+        <!-- ==================== BLOQUE 5: PRÓXIMOS PASOS ==================== -->
+        <section>
+            <section>
+                <h2><span class="section-num">5</span> Próximos Pasos</h2>
+                <p><em>Presentan: Arturo y Fabián</em></p>
+                <aside class="notes">
+                    <h4>🔄 TRANSICIÓN</h4>
+                    <p>Fabián: "Ahora veamos juntos los pasos que faltan para cerrar este proyecto."</p>
+                    <p>Arturo puede intervenir en esta sección.</p>
+                </aside>
+            </section>
+            
+            <section>
+                <h3>Plan de Cierre</h3>
+                <table>
+                    <tr><th style="width:10%">#</th><th>Actividad</th><th style="width:25%">Responsable</th><th style="width:20%">Cuándo</th></tr>
+                    <tr class="fragment"><td>1</td><td>Ejecutar recarga de datos</td><td>Rae (BI)</td><td><span class="badge badge-critical">A definir hoy</span></td></tr>
+                    <tr class="fragment"><td>2</td><td>Configurar medidas en dashboard</td><td>Fabián</td><td>+1 día</td></tr>
+                    <tr class="fragment"><td>3</td><td>Validar números vs Excel</td><td>Luvia + Fabián</td><td>+1-2 días</td></tr>
+                    <tr class="fragment"><td>4</td><td>Ajustes de aliases si necesario</td><td>Fabián</td><td>+1 día</td></tr>
+                    <tr class="fragment"><td>5</td><td>Capacitación a usuarios</td><td>Francisco</td><td>A programar</td></tr>
+                    <tr class="fragment"><td>6</td><td>Go-live oficial</td><td>Todos</td><td>Post-validación</td></tr>
+                </table>
+                <aside class="notes">
+                    <h4>🎯 OBJETIVO DE ESTA SLIDE</h4>
+                    <p>Mostrar el plan detallado de cierre.</p>
+                    
+                    <h4>📝 GUIÓN SUGERIDO (Ambos)</h4>
+                    <p>Para cada paso:</p>
+                    <ol>
+                        <li>"Primero necesitamos que Rae ejecute la recarga - esto lo debemos definir HOY"</li>
+                        <li>"Una vez recargado, Fabián configura las medidas en el dashboard - 1 día"</li>
+                        <li>"Luego Luvia y Fabián validan los números contra el Excel - 1-2 días"</li>
+                        <li>"Si hay ajustes de aliases, se hacen en 1 día"</li>
+                        <li>"Francisco programa la capacitación"</li>
+                        <li>"Y finalmente el go-live"</li>
+                    </ol>
+                    
+                    <h4>⏱️ TIEMPO: 3 minutos</h4>
+                    
+                    <h4>💡 TIPS</h4>
+                    <ul>
+                        <li>El primer punto es CRÍTICO - enfatizar que se define hoy</li>
+                        <li>Una vez que se ejecute la recarga, el cierre es RÁPIDO</li>
+                    </ul>
+                </aside>
+            </section>
+            
+            <section data-background="#b1d4e0">
+                <h3>Lo que necesitamos acordar HOY</h3>
+                <div style="text-align: left; max-width: 500px; margin: 30px auto;">
+                    <p class="fragment" style="font-size: 1.2em;"><span class="step-num">1</span><strong>¿Quién</strong> puede ejecutar la recarga?</p>
+                    <p class="fragment" style="font-size: 1.2em;"><span class="step-num">2</span><strong>¿Cuándo</strong> puede hacerse?</p>
+                    <p class="fragment" style="font-size: 1.2em;"><span class="step-num">3</span><strong>¿Cómo</strong> coordinamos la validación?</p>
+                </div>
+                <div class="fragment" style="margin-top: 50px;">
+                    <p style="font-size: 1.1em;">
+                        Con esto definido, el proyecto cierra en<br>
+                        <strong style="font-size: 1.3em;">días, no semanas</strong>.
+                    </p>
+                </div>
+                <aside class="notes">
+                    <h4>🎯 OBJETIVO DE ESTA SLIDE</h4>
+                    <p>Pedir COMPROMISOS concretos.</p>
+                    
+                    <h4>📝 GUIÓN SUGERIDO (Arturo)</h4>
+                    <p>"Antes de pasar a preguntas, necesitamos acordar tres cosas:</p>
+                    <ol>
+                        <li>¿Quién de su equipo puede ejecutar la recarga?</li>
+                        <li>¿Cuándo pueden hacerlo?</li>
+                        <li>¿Cómo nos coordinamos para la validación?</li>
+                    </ol>
+                    <p>Con estos tres puntos definidos, cerramos esto en días, no en semanas."</p>
+                    
+                    <h4>⏱️ TIEMPO: 3 minutos</h4>
+                    
+                    <h4>⚠️ IMPORTANTE</h4>
+                    <ul>
+                        <li>NO salir de esta reunión sin fechas</li>
+                        <li>Este es el momento de presionar (gentilmente) por compromisos</li>
+                    </ul>
+                </aside>
+            </section>
+        </section>
+
+        <!-- ==================== BLOQUE 6: CIERRE ==================== -->
+        <section>
+            <section>
+                <h2><span class="section-num">6</span> Preguntas y Acuerdos</h2>
+                <aside class="notes">
+                    <h4>🔄 TRANSICIÓN</h4>
+                    <p>"Ahora abrimos el espacio para preguntas y para documentar los acuerdos."</p>
+                </aside>
+            </section>
+            
+            <section>
+                <h3>Resumen de Entregables</h3>
+                <table>
+                    <tr><th style="width:60%">Entregable</th><th>Estado</th></tr>
+                    <tr><td>Guía Técnica v2.0</td><td><span class="badge badge-done">Entregada</span></td></tr>
+                    <tr><td>Script de Qlik Sense</td><td><span class="badge badge-done">Validado</span></td></tr>
+                    <tr><td>Mapeo de empresas</td><td><span class="badge badge-done">60+ aliases</span></td></tr>
+                    <tr><td>Documentación proceso AS-IS/TO-BE</td><td><span class="badge badge-done">Entregada</span></td></tr>
+                    <tr><td>Matriz RACI</td><td><span class="badge badge-done">Entregada</span></td></tr>
+                    <tr><td>Dashboard funcional</td><td><span class="badge badge-pending">Pendiente recarga</span></td></tr>
+                </table>
+                <aside class="notes">
+                    <h4>🎯 OBJETIVO DE ESTA SLIDE</h4>
+                    <p>Mostrar todo lo que ya se entregó.</p>
+                    
+                    <h4>📝 GUIÓN SUGERIDO</h4>
+                    <p>"Antes de las preguntas, un resumen de todo lo que ya entregamos..."</p>
+                    
+                    <h4>⏱️ TIEMPO: 1 minuto</h4>
+                </aside>
+            </section>
+            
+            <section>
+                <h3>Preguntas Frecuentes</h3>
+                <div style="font-size: 0.75em; text-align: left; max-width: 700px; margin: 0 auto;">
+                    <div class="card" style="margin-bottom: 15px;">
+                        <p><strong>¿Por qué no tienen acceso para la recarga?</strong></p>
+                        <p style="color: #666;">→ Por política de seguridad de Qlik Enterprise. Es una buena práctica.</p>
+                    </div>
+                    <div class="card" style="margin-bottom: 15px;">
+                        <p><strong>¿Qué pasa si los números no coinciden con el Excel?</strong></p>
+                        <p style="color: #666;">→ Ajustamos aliases en el mapeo y recargamos. Es un proceso rápido.</p>
+                    </div>
+                    <div class="card">
+                        <p><strong>¿Cuánto toma la recarga adicional?</strong></p>
+                        <p style="color: #666;">→ El script adicional agrega ~1-2 minutos al proceso normal.</p>
+                    </div>
+                </div>
+                <aside class="notes">
+                    <h4>🎯 OBJETIVO DE ESTA SLIDE</h4>
+                    <p>Anticipar preguntas comunes.</p>
+                    
+                    <h4>📝 GUIÓN SUGERIDO</h4>
+                    <p>"Aquí hay algunas preguntas que anticipamos..."</p>
+                    <p>(Leer cada una)</p>
+                    
+                    <h4>⏱️ TIEMPO: 2 minutos</h4>
+                </aside>
+            </section>
+            
+            <section>
+                <h3>Valor Entregado</h3>
+                <div class="two-columns" style="margin-top: 30px;">
+                    <div class="card" style="background: #ffebee; border-left-color: var(--status-error);">
+                        <p style="font-size: 1.8em; font-weight: 300; color: var(--status-error);">ANTES</p>
+                        <p style="font-size: 1.8em; font-weight: 700; color: var(--status-error);">16-20 hrs/mes</p>
+                        <p style="font-size: 0.8em; color: #666;">Proceso manual</p>
+                    </div>
+                    <div class="card" style="background: var(--strtgy-accent); border-left-color: var(--status-ok);">
+                        <p style="font-size: 1.8em; font-weight: 300; color: var(--strtgy-primary);">DESPUÉS</p>
+                        <p style="font-size: 1.8em; font-weight: 700; color: var(--strtgy-primary);">Minutos</p>
+                        <p style="font-size: 0.8em; color: #666;">Automatizado</p>
+                    </div>
+                </div>
+                <p class="fragment" style="margin-top: 30px; font-size: 0.9em;">
+                    Trazabilidad · Drill-down · Tiempo real · Sin errores
+                </p>
+                <aside class="notes">
+                    <h4>🎯 OBJETIVO DE ESTA SLIDE</h4>
+                    <p>Reforzar el valor antes de cerrar.</p>
+                    
+                    <h4>📝 GUIÓN SUGERIDO</h4>
+                    <p>"Para cerrar, recordemos el valor que estamos entregando: de 16-20 horas mensuales a minutos."</p>
+                    
+                    <h4>⏱️ TIEMPO: 1 minuto</h4>
+                </aside>
+            </section>
+            
+            <section data-state="closing-slide">
+                <h2 style="color: white; border-bottom-color: #56aeff; text-shadow: 0 2px 30px rgba(0,0,0,0.4);">¡Gracias!</h2>
+                <p style="color: white; font-size: 1em; line-height: 1.6;">
+                    Estamos a <strong style="color: #56aeff;">un paso</strong> de tener esto funcionando.<br><br>
+                    Quedamos atentos para coordinar la recarga<br>
+                    y terminar la implementación.
+                </p>
+                <div style="margin-top: 50px; display: flex; justify-content: center; gap: 40px; align-items: center;">
+                    <img src="assets/logo-strtgy.png" alt="STRTGY AI" style="max-width: 120px; filter: brightness(0) invert(1);">
+                    <picture>
+                        <source srcset="assets/logo-vigia.avif" type="image/avif">
+                        <source srcset="assets/logo-vigia.png" type="image/png">
+                        <img src="assets/logo-vigia.avif" alt="Grupo Vigía" style="max-width: 100px; filter: brightness(0) invert(1);" onerror="this.parentElement.style.display='none'">
+                    </picture>
+                </div>
+                <p style="color: var(--strtgy-accent); font-size: 0.7em; margin-top: 15px;">
+                    STRTGY AI — Inteligencia Artificial para la Transformación de Negocios
+                </p>
+                <aside class="notes">
+                    <h4>🎯 OBJETIVO DE ESTA SLIDE</h4>
+                    <p>Cierre y call-to-action.</p>
+                    
+                    <h4>📝 GUIÓN SUGERIDO (Arturo)</h4>
+                    <p>"Muchas gracias por su tiempo.</p>
+                    <p>Estamos literalmente a UN PASO de tener esto funcionando.</p>
+                    <p>Quedamos atentos para coordinar la recarga y terminar esta implementación.</p>
+                    <p>¿Podemos confirmar los acuerdos antes de cerrar?"</p>
+                    
+                    <h4>⏱️ TIEMPO: 1 minuto</h4>
+                    
+                    <h4>✅ ANTES DE CERRAR</h4>
+                    <ul>
+                        <li>Reconfirmar quién ejecuta la recarga</li>
+                        <li>Reconfirmar la fecha</li>
+                        <li>Acordar siguiente reunión si aplica</li>
+                    </ul>
+                </aside>
+            </section>
+        </section>
+
+        <!-- ==================== ANEXO: DETALLES TÉCNICOS ==================== -->
+        <section>
+            <section>
+                <h3>Anexo: Detalles Técnicos</h3>
+                <p style="font-size: 0.8em; color: #666;">Slides de respaldo para preguntas técnicas</p>
+                <aside class="notes">
+                    <h4>ℹ️ NOTA</h4>
+                    <p>Estas slides son de RESPALDO.</p>
+                    <p>Solo mostrar si hay preguntas técnicas específicas.</p>
+                </aside>
+            </section>
+            
+            <section>
+                <h3>Campos Generados por el Script</h3>
+                <table style="font-size: 0.65em;">
+                    <tr><th>Campo</th><th>Descripción</th><th>Reemplaza</th></tr>
+                    <tr><td>[Balanza.División]</td><td>Segmento de negocio</td><td>Filtro manual "Primer Nivel"</td></tr>
+                    <tr><td>[Balanza.Empresa Principal]</td><td>Empresa que reporta</td><td>Identificación manual</td></tr>
+                    <tr><td>[Balanza.Empresa Contraparte]</td><td>Empresa contraparte normalizada</td><td>Búsqueda manual</td></tr>
+                    <tr><td>[Balanza.Rol]</td><td>ACTIVO o PASIVO</td><td>Colorear filas</td></tr>
+                    <tr><td>[Balanza.Tipo Contabilidad]</td><td>SA o Pruebas</td><td>Reorganizar columnas</td></tr>
+                    <tr><td>[Saldo]</td><td>Monto agregado</td><td>Fórmulas Excel</td></tr>
+                    <tr><td>[KPI.Estatus]</td><td>OK o DESCUADRE</td><td>Revisión visual</td></tr>
+                </table>
+            </section>
+            
+            <section>
+                <h3>Expresiones del Dashboard</h3>
+                <pre><code class="language-qlik" data-trim data-noescape>
+// Activo SA
+Sum({<[Balanza.Rol]={'ACTIVO'},
+     [Balanza.Tipo Contabilidad]={'SA'}>} [Saldo])
+
+// Pasivo SA
+Sum({<[Balanza.Rol]={'PASIVO'},
+     [Balanza.Tipo Contabilidad]={'SA'}>} [Saldo]) * -1
+
+// Diferencia
+Sum([Saldo])
+
+// Estatus
+If(Abs(Sum([Saldo])) > 1, 'DESCUADRE', 'OK')
+                </code></pre>
+            </section>
+            
+            <section>
+                <h3>Lista de Empresas Mapeadas</h3>
+                <div style="font-size: 0.5em; columns: 3; column-gap: 20px; text-align: left;">
+                    <p>ALCOM</p><p>APW</p><p>Asesorias Daval</p><p>Biomex</p>
+                    <p>Combustibles Termogas</p><p>EVALTA</p><p>Energeticos Termogas</p>
+                    <p>Fideicomiso Vigia</p><p>GTP</p><p>Gasolinera Ebano</p>
+                    <p>Grupo Avidam</p><p>Grupo Vigia</p><p>IBPME</p><p>INTERA CAPITAL</p>
+                    <p>JUNGO</p><p>KIWI</p><p>MDI</p><p>MDI Importadora</p>
+                    <p>Migar T</p><p>Minima Real</p><p>NAVES INDUSTRIALES</p><p>PACTO</p>
+                    <p>Parque Estrella</p><p>Propane Services</p><p>Servicios Org M</p>
+                    <p>Sierra Alta Monterra</p><p>Soluciones TI</p><p>Terrenos Vigia</p>
+                    <p>Total Propane</p><p>Troncalnet de Mexico</p><p>Videnci</p>
+                    <p>Vig Desarrollos</p><p>Villa de Reyes</p><p>... y más</p>
+                </div>
+                <p style="margin-top: 20px; font-size: 0.8em;">Total: <strong>60+ empresas</strong> con sus variantes de nombre</p>
+            </section>
+        </section>
+
+        <!-- ==================== ANEXO: CONTROLES DE PRESENTACIÓN ==================== -->
+        <section>
+            <section>
+                <h3>Guía de Controles</h3>
+                <p style="font-size: 0.8em; color: #666;">Para el presentador</p>
+            </section>
+            
+            <section>
+                <h3>Controles de Teclado</h3>
+                <table style="font-size: 0.7em;">
+                    <tr><th style="width:30%">Tecla</th><th>Acción</th></tr>
+                    <tr><td><code>S</code></td><td>Abrir <strong>vista de presentador</strong> (notas)</td></tr>
+                    <tr><td><code>F</code></td><td>Pantalla completa</td></tr>
+                    <tr><td><code>O</code></td><td>Vista general de slides</td></tr>
+                    <tr><td><code>B</code> o <code>.</code></td><td>Pantalla negra (pausa)</td></tr>
+                    <tr><td><code>Esc</code></td><td>Salir de modo actual</td></tr>
+                    <tr><td><code>→</code> <code>←</code></td><td>Navegar entre slides</td></tr>
+                    <tr><td><code>↓</code> <code>↑</code></td><td>Navegar slides verticales</td></tr>
+                </table>
+            </section>
+            
+            <section>
+                <h3>Exportar a PDF</h3>
+                <div class="help-box">
+                    <p><strong>Paso 1:</strong> Agregar <code>?print-pdf</code> a la URL</p>
+                    <p style="font-size: 0.8em; color: #666;">Ejemplo: <code>index.html?print-pdf</code></p>
+                </div>
+                <div class="help-box">
+                    <p><strong>Paso 2:</strong> Presionar <code>Ctrl+P</code> (o <code>Cmd+P</code> en Mac)</p>
+                </div>
+                <div class="help-box">
+                    <p><strong>Paso 3:</strong> Configurar:</p>
+                    <ul style="font-size: 0.8em; margin-left: 20px;">
+                        <li>Destino: Guardar como PDF</li>
+                        <li>Orientación: Horizontal</li>
+                        <li>Márgenes: Ninguno</li>
+                        <li>Gráficos de fondo: ✓ Activado</li>
+                    </ul>
+                </div>
+                <aside class="notes">
+                    <h4>💡 TIPS PARA PDF</h4>
+                    <ul>
+                        <li>Funciona mejor en Chrome/Chromium</li>
+                        <li>Los fragments se imprimen en páginas separadas</li>
+                        <li>Las notas NO se incluyen por defecto</li>
+                    </ul>
+                </aside>
+            </section>
+            
+            <section>
+                <h3>Vista de Presentador</h3>
+                <div class="help-box">
+                    <p>Presiona <code>S</code> para abrir la vista de presentador en una nueva ventana.</p>
+                </div>
+                <p style="margin-top: 20px;">En la vista de presentador verás:</p>
+                <ul style="font-size: 0.8em;">
+                    <li>Slide actual y siguiente</li>
+                    <li>Notas del presentador</li>
+                    <li>Temporizador</li>
+                    <li>Controles de navegación</li>
+                </ul>
+                <aside class="notes">
+                    <h4>💡 RECOMENDACIÓN</h4>
+                    <p>Abre la vista de presentador en una pantalla y proyecta la presentación en otra.</p>
+                </aside>
+            </section>
+        </section>
+
+    </div>
+</div>
+
+<!-- ============================================================================
+     SCRIPTS
+     ============================================================================ -->
+
+<!-- Reveal.js Core -->
+<script src="dist/reveal.js"></script>
+
+<!-- Reveal.js Plugins -->
+<script src="plugin/notes/notes.js"></script>
+<script src="plugin/highlight/highlight.js"></script>
+<script src="plugin/zoom/zoom.js"></script>
+
+<!-- GSAP for Animations -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+
+<!-- Custom Animations -->
+<script src="js/strtgy-animations.js"></script>
+
+<script>
+    // Initialize Reveal.js with PDF export support
+    Reveal.initialize({
+        hash: true,
+        slideNumber: 'c/t',
+        showNotes: false,
+        transition: 'slide',
+        width: 1200,
+        height: 700,
+        margin: 0.1,
+        center: true,
+        
+        // PDF Export Options
+        pdfMaxPagesPerSlide: 1,
+        pdfSeparateFragments: true,
+        
+        // Keyboard shortcuts
+        keyboard: {
+            // Custom shortcuts can be added here
+        },
+        
+        // Plugins
+        plugins: [ RevealNotes, RevealHighlight, RevealZoom ]
+    });
+    
+    // Detect print-pdf mode
+    if (window.location.search.match(/print-pdf/gi)) {
+        // Hide animated background for PDF
+        document.getElementById('data-bg').style.display = 'none';
+        document.querySelector('.watermark-logo').style.display = 'none';
+        var clientWatermark = document.querySelector('.watermark-client');
+        if (clientWatermark) clientWatermark.style.display = 'none';
+    }
+</script>
+
+</body>
+</html>

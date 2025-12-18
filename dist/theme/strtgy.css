@@ -1,0 +1,427 @@
+/**
+ * STRTGY AI Theme for Reveal.js
+ * 
+ * A professional blue theme for data & AI presentations
+ * Based on STRTGY corporate brand guidelines
+ * 
+ * @author STRTGY AI
+ */
+
+/* Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700;900&display=swap');
+
+/* ============================================================================
+   STRTGY COLOR PALETTE
+   ============================================================================ */
+:root {
+    --strtgy-primary: #145da0;
+    --strtgy-light: #56aeff;
+    --strtgy-dark: #051d40;
+    --strtgy-accent: #b1d4e0;
+    --strtgy-white: #ffffff;
+    --strtgy-text: #2d3748;
+    --strtgy-text-light: #718096;
+    --status-ok: #38a169;
+    --status-warning: #dd6b20;
+    --status-error: #e53e3e;
+}
+
+/* ============================================================================
+   BASE THEME
+   ============================================================================ */
+.reveal-viewport {
+    background: linear-gradient(135deg, #f8fafc 0%, #e8f4f8 50%, #f0f7fa 100%);
+}
+
+.reveal {
+    font-family: 'Lato', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-size: 42px;
+    font-weight: 400;
+    color: var(--strtgy-text);
+}
+
+/* ============================================================================
+   HEADINGS
+   ============================================================================ */
+.reveal h1,
+.reveal h2,
+.reveal h3,
+.reveal h4,
+.reveal h5,
+.reveal h6 {
+    margin: 0 0 20px 0;
+    font-family: 'Lato', sans-serif;
+    font-weight: 700;
+    line-height: 1.2;
+    letter-spacing: -0.02em;
+    text-transform: none;
+    text-shadow: none;
+    word-wrap: break-word;
+}
+
+.reveal h1 {
+    font-size: 2.5em;
+    font-weight: 900;
+    color: var(--strtgy-dark);
+    border-bottom: 4px solid var(--strtgy-primary);
+    padding-bottom: 12px;
+}
+
+.reveal h2 {
+    font-size: 1.6em;
+    color: var(--strtgy-primary);
+    border-bottom: 2px solid var(--strtgy-accent);
+    padding-bottom: 8px;
+}
+
+.reveal h3 {
+    font-size: 1.3em;
+    color: var(--strtgy-dark);
+}
+
+.reveal h4 {
+    font-size: 1em;
+    color: var(--strtgy-text);
+}
+
+/* ============================================================================
+   LINKS
+   ============================================================================ */
+.reveal a {
+    color: var(--strtgy-primary);
+    text-decoration: none;
+    transition: color 0.2s ease;
+}
+
+.reveal a:hover {
+    color: var(--strtgy-light);
+    text-shadow: none;
+    border: none;
+}
+
+/* ============================================================================
+   TEXT ELEMENTS
+   ============================================================================ */
+.reveal p {
+    margin: 20px 0;
+    line-height: 1.3;
+}
+
+.reveal strong,
+.reveal b {
+    font-weight: 700;
+    color: var(--strtgy-dark);
+}
+
+.reveal em {
+    font-style: italic;
+}
+
+.reveal section img {
+    margin: 15px 0;
+    border: none;
+    box-shadow: none;
+}
+
+/* ============================================================================
+   LISTS
+   ============================================================================ */
+.reveal ol,
+.reveal dl,
+.reveal ul {
+    display: inline-block;
+    text-align: left;
+    margin: 0 0 0 1em;
+}
+
+.reveal ol {
+    list-style-type: decimal;
+}
+
+.reveal ul {
+    list-style-type: disc;
+}
+
+.reveal ul ul {
+    list-style-type: square;
+}
+
+.reveal ul ul ul {
+    list-style-type: circle;
+}
+
+.reveal li {
+    margin: 0.5em 0;
+}
+
+/* ============================================================================
+   TABLES
+   ============================================================================ */
+.reveal table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+    font-size: 0.7em;
+}
+
+.reveal table th {
+    background: var(--strtgy-dark);
+    color: var(--strtgy-white);
+    padding: 12px 10px;
+    font-weight: 700;
+    text-align: left;
+    border: none;
+}
+
+.reveal table td {
+    padding: 10px;
+    border: 1px solid #e2e8f0;
+    vertical-align: top;
+}
+
+.reveal table tbody tr:nth-child(even) {
+    background: #f8fafc;
+}
+
+.reveal table tbody tr:hover {
+    background: var(--strtgy-accent);
+}
+
+.reveal table tbody td:first-child {
+    font-weight: 600;
+    color: var(--strtgy-dark);
+}
+
+/* ============================================================================
+   BLOCKQUOTES
+   ============================================================================ */
+.reveal blockquote {
+    display: block;
+    position: relative;
+    width: 70%;
+    margin: 20px auto;
+    padding: 16px 20px;
+    background: linear-gradient(to right, var(--strtgy-accent), transparent);
+    border-left: 4px solid var(--strtgy-primary);
+    font-style: italic;
+    box-shadow: none;
+}
+
+.reveal blockquote p:first-child,
+.reveal blockquote p:last-child {
+    display: inline-block;
+}
+
+/* ============================================================================
+   CODE
+   ============================================================================ */
+.reveal pre {
+    display: block;
+    position: relative;
+    width: 90%;
+    margin: 20px auto;
+    text-align: left;
+    font-size: 0.55em;
+    font-family: 'JetBrains Mono', 'Fira Code', 'Consolas', monospace;
+    line-height: 1.2em;
+    word-wrap: break-word;
+    background: var(--strtgy-dark);
+    border-left: 4px solid var(--strtgy-primary);
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.reveal code {
+    font-family: 'JetBrains Mono', 'Fira Code', 'Consolas', monospace;
+    text-transform: none;
+    color: #aed581;
+}
+
+.reveal pre code {
+    display: block;
+    padding: 16px 20px;
+    overflow: auto;
+    max-height: 400px;
+    word-wrap: normal;
+    color: #e2e8f0;
+}
+
+/* ============================================================================
+   HORIZONTAL RULE
+   ============================================================================ */
+.reveal hr {
+    border: none;
+    height: 2px;
+    background: linear-gradient(to right, var(--strtgy-primary), var(--strtgy-accent), transparent);
+    margin: 32px 0;
+}
+
+/* ============================================================================
+   SLIDES
+   ============================================================================ */
+.reveal .slides section {
+    padding: 20px;
+}
+
+/* ============================================================================
+   PROGRESS BAR
+   ============================================================================ */
+.reveal .progress {
+    background: rgba(0, 0, 0, 0.1);
+    color: var(--strtgy-primary);
+}
+
+.reveal .progress span {
+    background: var(--strtgy-primary);
+    transition: width 0.8s cubic-bezier(0.26, 0.86, 0.44, 0.985);
+}
+
+/* ============================================================================
+   SLIDE NUMBER
+   ============================================================================ */
+.reveal .slide-number {
+    color: var(--strtgy-text-light);
+    background-color: transparent;
+    font-size: 12px;
+    font-family: 'Lato', sans-serif;
+}
+
+/* ============================================================================
+   CONTROLS
+   ============================================================================ */
+.reveal .controls {
+    color: var(--strtgy-primary);
+}
+
+/* ============================================================================
+   CUSTOM COMPONENTS - STRTGY
+   ============================================================================ */
+
+/* Highlight classes */
+.highlight-green { color: var(--status-ok); font-weight: bold; }
+.highlight-red { color: var(--status-error); font-weight: bold; }
+.highlight-blue { color: var(--strtgy-primary); font-weight: bold; }
+
+/* Presenter indicators */
+.presenter-arturo {
+    border-left: 4px solid var(--strtgy-primary);
+    padding: 10px 20px;
+    background: linear-gradient(to right, var(--strtgy-accent), transparent);
+    margin: 10px 0;
+    border-radius: 0 8px 8px 0;
+}
+
+.presenter-fabian {
+    border-left: 4px solid var(--strtgy-light);
+    padding: 10px 20px;
+    background: linear-gradient(to right, rgba(86, 174, 255, 0.2), transparent);
+    margin: 10px 0;
+    border-radius: 0 8px 8px 0;
+}
+
+/* Status indicators */
+.status-done { color: var(--status-ok); font-weight: 700; }
+.status-pending { color: var(--status-warning); font-weight: 700; }
+.status-error { color: var(--status-error); font-weight: 700; }
+
+/* Cards */
+.card {
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    border-left: 4px solid var(--strtgy-primary);
+}
+
+/* Two columns layout */
+.two-columns {
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+}
+
+.two-columns > div {
+    flex: 1;
+    max-width: 280px;
+}
+
+/* STRTGY Logo text */
+.strtgy-logo {
+    font-family: 'Lato', sans-serif;
+    font-weight: 900;
+    font-size: 1.4em;
+    color: var(--strtgy-primary);
+    letter-spacing: 3px;
+}
+
+/* Numbered steps */
+.step-num {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+    background: var(--strtgy-primary);
+    color: white;
+    border-radius: 50%;
+    font-weight: 700;
+    font-size: 0.85em;
+    margin-right: 12px;
+}
+
+.step-num.secondary {
+    background: var(--strtgy-light);
+}
+
+/* Status badges */
+.badge {
+    display: inline-block;
+    padding: 4px 10px;
+    border-radius: 4px;
+    font-size: 0.85em;
+    font-weight: 600;
+}
+
+.badge-done {
+    background: rgba(56, 161, 105, 0.15);
+    color: var(--status-ok);
+    border: 1px solid var(--status-ok);
+}
+
+.badge-pending {
+    background: rgba(221, 107, 32, 0.15);
+    color: var(--status-warning);
+    border: 1px solid var(--status-warning);
+}
+
+.badge-critical {
+    background: rgba(229, 62, 62, 0.15);
+    color: var(--status-error);
+    border: 1px solid var(--status-error);
+}
+
+/* Section numbers */
+.section-num {
+    display: inline-block;
+    background: var(--strtgy-dark);
+    color: white;
+    padding: 6px 14px;
+    border-radius: 20px;
+    font-weight: 700;
+    font-size: 0.9em;
+    margin-right: 10px;
+}
+
+/* Small text */
+.small {
+    font-size: 0.6em;
+}
+
+/* ============================================================================
+   PRINT STYLES
+   ============================================================================ */
+@media print {
+    .backgrounds {
+        background-color: var(--strtgy-white);
+    }
+}

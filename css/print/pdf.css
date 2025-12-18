@@ -1,0 +1,129 @@
+/**
+ * PDF Export Styles for STRTGY Reveal.js Presentations
+ * 
+ * These styles are applied when exporting to PDF via ?print-pdf
+ */
+
+/* Force white background */
+.reveal-viewport,
+.reveal .slides section {
+    background: white !important;
+}
+
+/* Hide animated elements */
+#data-bg,
+.data-particles,
+.watermark-logo,
+.watermark-client {
+    display: none !important;
+}
+
+/* Page layout */
+.reveal .slides {
+    width: 100% !important;
+    height: 100% !important;
+}
+
+.reveal .slides section {
+    page-break-after: always;
+    position: relative !important;
+    left: 0 !important;
+    top: 0 !important;
+    width: 100% !important;
+    min-height: 100% !important;
+    box-sizing: border-box;
+    padding: 40px !important;
+}
+
+/* Typography adjustments for print */
+.reveal h1,
+.reveal h2,
+.reveal h3,
+.reveal h4 {
+    text-shadow: none !important;
+}
+
+/* Table borders for print */
+.reveal table {
+    border-collapse: collapse;
+}
+
+.reveal table th,
+.reveal table td {
+    border: 1px solid #ddd;
+}
+
+/* Ensure fragments are visible */
+.reveal .slides section .fragment {
+    opacity: 1 !important;
+    visibility: visible !important;
+}
+
+/* Cards print better with borders */
+.card {
+    border: 1px solid #ddd;
+    box-shadow: none !important;
+}
+
+/* Badges print styling */
+.badge {
+    border: 1px solid currentColor;
+}
+
+/* Step numbers print styling */
+.step-num {
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+}
+
+/* Code blocks */
+.reveal pre {
+    box-shadow: none;
+    border: 1px solid #ddd;
+}
+
+/* Progress bar hidden in print */
+.reveal .progress {
+    display: none !important;
+}
+
+/* Slide number styling for print */
+.reveal .slide-number {
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+    font-size: 10px;
+    color: #666;
+}
+
+/* Ensure colors print */
+* {
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+}
+
+/* Notes styling for PDF (when showNotes is enabled) */
+.reveal .speaker-notes-pdf {
+    display: block;
+    width: 100%;
+    max-height: none;
+    left: auto;
+    top: auto;
+    right: auto;
+    bottom: auto;
+    padding: 20px;
+    background: #f9f9f9;
+    border-top: 1px solid #ddd;
+    font-size: 12px;
+    line-height: 1.4;
+}
+
+.reveal .speaker-notes-pdf h4 {
+    font-size: 14px;
+    color: #145da0;
+    margin: 10px 0 5px 0;
+}
+
+.reveal .speaker-notes-pdf ul {
+    margin-left: 20px;
+}

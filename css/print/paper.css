@@ -1,0 +1,39 @@
+/**
+ * Paper Print Styles for STRTGY Reveal.js Presentations
+ * 
+ * These styles are applied when printing normally (not PDF export)
+ */
+
+/* Basic print reset */
+* {
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+}
+
+/* Hide navigation elements */
+.reveal .controls,
+.reveal .progress,
+#data-bg,
+.data-particles,
+.watermark-logo,
+.watermark-client {
+    display: none !important;
+}
+
+/* Page margins */
+@page {
+    margin: 0.5in;
+    size: landscape;
+}
+
+/* Slide styling */
+.reveal .slides section {
+    page-break-after: always;
+    padding: 20px;
+}
+
+/* Ensure fragments show */
+.reveal .slides section .fragment {
+    opacity: 1 !important;
+    visibility: visible !important;
+}

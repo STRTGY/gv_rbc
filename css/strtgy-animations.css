@@ -1,0 +1,140 @@
+/**
+ * STRTGY AI - Animation Styles
+ * 
+ * Animated data background and visual effects
+ */
+
+/* ============================================================================
+   ANIMATED DATA BACKGROUND
+   ============================================================================ */
+#data-bg {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: -1;
+    background: linear-gradient(135deg, #f8fafc 0%, #e8f4f8 50%, #f0f7fa 100%);
+    overflow: hidden;
+    pointer-events: none;
+}
+
+#data-bg svg {
+    width: 100%;
+    height: 100%;
+    opacity: 0.15;
+    transition: opacity 0.8s ease;
+}
+
+#data-bg svg path {
+    fill: none;
+    stroke-linecap: round;
+}
+
+/* ============================================================================
+   COVER & CLOSING SLIDE STATES
+   ============================================================================ */
+body.slide-cover #data-bg,
+body.slide-closing #data-bg {
+    background: var(--strtgy-dark, #051d40);
+}
+
+body.slide-cover #data-bg svg,
+body.slide-closing #data-bg svg {
+    opacity: 0.5;
+}
+
+/* Text adjustments for dark slides */
+body.slide-cover .reveal h2,
+body.slide-cover .reveal h4,
+body.slide-cover .reveal p,
+body.slide-cover .reveal strong {
+    color: white !important;
+}
+
+body.slide-cover .reveal h2 {
+    border-bottom-color: var(--strtgy-light, #56aeff) !important;
+    text-shadow: 0 2px 20px rgba(0,0,0,0.3);
+}
+
+/* ============================================================================
+   DATA PARTICLES
+   ============================================================================ */
+.data-particle {
+    position: absolute;
+    font-family: 'JetBrains Mono', 'Fira Code', monospace;
+    font-size: 10px;
+    color: var(--strtgy-primary, #145da0);
+    opacity: 0.1;
+    pointer-events: none;
+    user-select: none;
+}
+
+body.slide-cover .data-particle,
+body.slide-closing .data-particle {
+    color: var(--strtgy-light, #56aeff);
+    opacity: 0.3;
+}
+
+/* ============================================================================
+   WATERMARK LOGO
+   ============================================================================ */
+.watermark-logo {
+    position: fixed;
+    bottom: 20px;
+    left: 30px;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    opacity: 0.4;
+    transition: opacity 0.3s ease;
+    pointer-events: none;
+}
+
+.watermark-logo img {
+    height: 28px;
+    width: auto;
+}
+
+.watermark-logo span {
+    font-family: 'Lato', sans-serif;
+    font-weight: 700;
+    font-size: 11px;
+    color: var(--strtgy-primary, #145da0);
+    letter-spacing: 1px;
+    text-transform: uppercase;
+}
+
+/* Watermark on dark slides */
+body.slide-cover .watermark-logo,
+body.slide-closing .watermark-logo {
+    opacity: 0.3;
+}
+
+body.slide-cover .watermark-logo img,
+body.slide-closing .watermark-logo img {
+    filter: brightness(0) invert(1);
+}
+
+body.slide-cover .watermark-logo span,
+body.slide-closing .watermark-logo span {
+    color: var(--strtgy-accent, #b1d4e0);
+}
+
+/* Hover effect */
+.watermark-logo:hover {
+    opacity: 0.8;
+    pointer-events: auto;
+}
+
+/* ============================================================================
+   PRINT STYLES
+   ============================================================================ */
+@media print {
+    #data-bg,
+    .watermark-logo,
+    .data-particles {
+        display: none !important;
+    }
+}
