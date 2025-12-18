@@ -8,6 +8,9 @@
     <meta name="description" content="Presentación de avance del proyecto de automatización del reporte de balanza comercial entre filiales">
     <meta name="author" content="STRTGY AI">
     
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="assets/logo-strtgy.png">
+    
     <!-- Reveal.js Core CSS -->
     <link rel="stylesheet" href="dist/reset.css">
     <link rel="stylesheet" href="dist/reveal.css">
@@ -1036,7 +1039,7 @@
             
             <section>
                 <h3>Expresiones del Dashboard</h3>
-                <pre><code class="language-qlik" data-trim data-noescape>
+                <pre><code class="language-javascript" data-trim data-noescape>
 // Activo SA
 Sum({<[Balanza.Rol]={'ACTIVO'},
      [Balanza.Tipo Contabilidad]={'SA'}>} [Saldo])
