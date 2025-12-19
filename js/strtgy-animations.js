@@ -128,6 +128,12 @@
     function setNormalSlideState() {
         document.body.classList.remove('slide-cover', 'slide-closing');
         
+        // Set light background on html to show through transparent layers
+        gsap.to('html', {
+            background: 'linear-gradient(135deg, #f8fafc 0%, #e8f4f8 50%, #f0f7fa 100%)',
+            duration: 0.8
+        });
+        
         gsap.to('#data-bg svg', {
             opacity: 0.15,
             duration: 0.8,
@@ -144,6 +150,12 @@
         document.body.classList.add('slide-cover');
         document.body.classList.remove('slide-closing');
         
+        // Set dark background on html to show through transparent layers
+        gsap.to('html', {
+            background: '#051d40',
+            duration: 0.8
+        });
+        
         gsap.to('#data-bg svg', {
             opacity: 0.5,
             duration: 0.8,
@@ -159,6 +171,12 @@
     function setClosingSlideState() {
         document.body.classList.add('slide-closing');
         document.body.classList.remove('slide-cover');
+        
+        // Set dark background on html to show through transparent layers
+        gsap.to('html', {
+            background: '#051d40',
+            duration: 0.8
+        });
         
         gsap.to('#data-bg svg', {
             opacity: 0.5,
@@ -192,9 +210,11 @@
         
         // Initialize state based on current slide
         const indices = Reveal.getIndices();
+        
         if (indices.h === 0 && indices.v === 0) {
             // First slide - set cover state immediately
             document.body.classList.add('slide-cover');
+            gsap.set('html', { background: '#051d40' });
             gsap.set('#data-bg', { background: '#051d40' });
             gsap.set('#data-bg svg', { opacity: 0.5 });
         }
